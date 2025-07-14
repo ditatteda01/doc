@@ -6,6 +6,8 @@ In this tutorial, we will:
 
 Reference: Claude, Gemini, and GPT
 
+[project link]: https://github.com/ditatteda01/scipy-cicd-project
+
 ---
 
 ## Prerequisites
@@ -98,7 +100,7 @@ EOF
 
 ## Step 2: Docker Configuration
 ### 2.1 Dockerfile, requirements.txt, and docker-compose.yml
-Copy the contents of `Dockerfile`, `requirements.txt` and `docker-compose.yml` from [Project Link].
+Copy the contents of `Dockerfile`, `requirements.txt` and `docker-compose.yml` from [project link].
 
 ### 2.2 Test Docker Setup Locally (Optional)
 ```bash
@@ -109,11 +111,13 @@ docker build -t scipy-app:test .
 docker images | grep scipy-app
 ```
 
+[Project Link]:(https://github.com/ditatteda01/scipy-cicd-project)
+
 ---
 
 ## Step 3: Application Code
 ### 3.1 Create Main Application and Test Suite
-Copy the sample SciPy project code from [Project Link]:
+Copy the sample SciPy project code from [project link]:
 - `src/data_processor.py`
 - `main.py`
 - `tests/test_data_processor.py`
@@ -129,7 +133,7 @@ python main.py
 
 ## Step 4: Local Development Environment
 ### 4.1 Makefile
-Copy the Makefile content from [Project Link].
+Copy the Makefile content from [project link].
 
 ### 4.2 Test Local Commands
 ```bash
@@ -164,7 +168,7 @@ docker ps
 
 ## 🔄 Step 5: GitHub Actions CI/CD
 ### 5.1 Copy GitHub Actions Workflow
-Copy the GitHub Actions workflow from [Project Link].
+Copy the GitHub Actions workflow from [project link].
 
 ### 5.2 Create GitHub Repository and Enable GitHub Container Registry
 - Create a GitHub repo named `scipy-cicd-project`
@@ -192,6 +196,8 @@ git remote add origin https://github.com/<username>/scipy-cicd-project.git
 ```bash
 git add .
 git commit -m "Initial commit: SciPy CI/CD pipeline setup"
+
+# push the change to remote repo, you may need the PAT here
 git push -u origin main
 ```
 
@@ -465,4 +471,3 @@ You now have a fully functional SciPy CI/CD pipeline with:
 - Use `make help` for available commands
 - Check container logs with `docker logs <container_name>`
 
-[Project Link]: (https://github.com/ditatteda01/scipy-cicd-project)
