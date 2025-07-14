@@ -1,8 +1,14 @@
-# SciPy CI/CD Pipeline - Step-by-Step Tutorial
-Src: Claude
+# CI/CD Pipeline: Step-by-Step Tutorial
+In this tutorial, we will:
+- Run some utilities from Python module `SciPy`
+- Build the Docker image and test quality
+- Set up a CI/CD pipeline with GitHub Actions Workflow
 
-## 📋 Prerequisites
+Reference: Claude, Gemini, and GPT
 
+---
+
+## Prerequisites
 Before starting, ensure you have:
 - Docker installed and running
 - Git installed
@@ -10,15 +16,16 @@ Before starting, ensure you have:
 - Docker Hub account (optional, for registry)
 - Text editor/IDE (VS Code, PyCharm, etc.)
 
-## 🚀 Step 1: Project Setup
+---
 
+## Step 1: Project Setup
 ### 1.1 Create Project Directory
 ```bash
-mkdir scipy-cicd-project
-cd scipy-cicd-project
+mkdir path/to/scipy-cicd-project
+cd path/to/scipy-cicd-project
 ```
 
-### 1.2 Initialize Git Repository
+### 1.2 Initialize Git Repository and Add Remote URL
 ```bash
 git init
 git branch -M main    # rename the current branch's name to 'main'
@@ -47,6 +54,7 @@ touch .env
 
 ### 1.4 Create .gitignore
 ```bash
+# open heredoc and write strings
 cat > .gitignore << 'EOF'
 __pycache__/
 *.py[cod]
@@ -86,18 +94,13 @@ htmlcov/
 EOF
 ```
 
-## 🐳 Step 2: Docker Configuration
+---
 
-### 2.1 Copy the Dockerfile
-Copy the Dockerfile content from the artifacts provided earlier into your `Dockerfile`.
+## Step 2: Docker Configuration
+### 2.1 Dockerfile, requirements.txt, and docker-compose.yml
+Copy the contents of `Dockerfile`, `requirements.txt` and `docker-compose.yml` from [Project Link].
 
-### 2.2 Copy requirements.txt
-Copy the requirements.txt content from the artifacts into your `requirements.txt`.
-
-### 2.3 Copy docker-compose.yml
-Copy the docker-compose.yml content from the artifacts into your `docker-compose.yml`.
-
-### 2.4 Test Docker Setup
+### 2.2 Test Docker Setup Locally (Optional)
 ```bash
 # Build the Docker image
 docker build -t scipy-app:test .
@@ -106,15 +109,13 @@ docker build -t scipy-app:test .
 docker images | grep scipy-app
 ```
 
-## 💻 Step 3: Application Code
+---
 
-### 3.1 Create Main Application
-Copy the sample SciPy project code from the artifacts into:
+## Step 3: Application Code
+### 3.1 Create Main Application and Test Suite
+Copy the sample SciPy project code from [Project Link]:
 - `src/data_processor.py`
 - `main.py`
-
-### 3.2 Create Test Suite
-Copy the test suite code from the artifacts into:
 - `tests/test_data_processor.py`
 - `tests/conftest.py`
 
@@ -122,14 +123,13 @@ Copy the test suite code from the artifacts into:
 ```bash
 # Test the application runs
 python main.py
-
-# Should output statistical analysis results
 ```
 
-## 🔧 Step 4: Local Development Environment
+---
 
-### 4.1 Copy Makefile
-Copy the Makefile content from the artifacts into your `Makefile`.
+## Step 4: Local Development Environment
+### 4.1 Makefile
+Copy the Makefile content from [Project Link].
 
 ### 4.2 Test Local Commands
 ```bash
@@ -147,6 +147,9 @@ make quality
 
 # Start development environment
 make dev
+
+# Shutdown development environment
+make dev-stop
 ```
 
 ### 4.3 Verify Development Environment
@@ -157,25 +160,24 @@ docker ps
 # Should show app, jupyter, and test services
 ```
 
+---
+
 ## 🔄 Step 5: GitHub Actions CI/CD
-
 ### 5.1 Copy GitHub Actions Workflow
-Copy the GitHub Actions workflow from the artifacts into `.github/workflows/ci-cd.yml`.
+Copy the GitHub Actions workflow from [Project Link].
 
-### 5.2 Create GitHub Repository
-```bash
-# Create repository on GitHub (via web interface)
-# Then connect local repository:
-
-git remote add origin https://github.com/YOUR_USERNAME/scipy-cicd-project.git
-```
-
-### 5.3 Enable GitHub Container Registry and Test `ghcr`
-- Go to your GitHub repo
-- Settings → Actions → General
+### 5.2 Create GitHub Repository and Enable GitHub Container Registry
+- Create a GitHub repo named `scipy-cicd-project`
+- In repo → Settings → Actions → General
 - Scroll to "Workflow permisssions"
 - Select "Read and write permissions"
 - Save changes
+- Connect the Local and Remote repos
+```bash
+git remote add origin https://github.com/<username>/scipy-cicd-project.git
+```
+
+### 5.3 Create Personal Access Token (PAT) if you don't have one
 - Account Settings → Developer Settings → Tokens (classic) → Classic tokens
 - Click Generate new token
   - Name: `ghcr-push-token
@@ -183,21 +185,8 @@ git remote add origin https://github.com/YOUR_USERNAME/scipy-cicd-project.git
     - `write:packages`
     - `read:packages`
     - `delete:packages`
-    - `repo` (for a private repo)
-- Save the Username and Token in `.env` file
-- Test `ghcr`
-```bash
-# login
-make login-ghcr
-
-# build and tag image
-make build
-docker tag scipy-app:latest ghcr.io/<username>/scipy-cicd-project:latest
-
-# push to ghcr
-docker push ghcr.io/<username>/scipy-cicd-project:latest
-```
-- Go to GitHub → Profile → Packages: where the pushed Docker image will be listed here
+    - `repo`
+- Save the Token
 
 ### 5.4 Initial Commit and Push
 ```bash
@@ -206,8 +195,9 @@ git commit -m "Initial commit: SciPy CI/CD pipeline setup"
 git push -u origin main
 ```
 
-## 🧪 Step 6: Test the CI/CD Pipeline
+---
 
+## Step 6: Test the CI/CD Pipeline
 ### 6.1 Verify Pipeline Triggered
 - Go to GitHub → Actions tab
 - You should see a workflow run triggered by your push
@@ -227,8 +217,9 @@ If pipeline succeeds:
 - Check GitHub Profile → Packages, for your pushed image
 - Image should be tagged as `latest` and with commit SHA
 
-## 🌿 Step 7: Feature Development Workflow
+---
 
+## Step 7: Feature Development Workflow
 ### 7.1 Create Feature Branch
 ```bash
 git checkout -b feature/new-analysis-function
@@ -473,3 +464,5 @@ You now have a fully functional SciPy CI/CD pipeline with:
 - Review Docker build output
 - Use `make help` for available commands
 - Check container logs with `docker logs <container_name>`
+
+[Project Link]: (https://github.com/ditatteda01/scipy-cicd-project)
