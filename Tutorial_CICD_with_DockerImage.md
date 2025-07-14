@@ -166,7 +166,7 @@ docker ps
 
 ---
 
-## 🔄 Step 5: GitHub Actions CI/CD
+## Step 5: GitHub Actions CI/CD
 ### 5.1 Copy GitHub Actions Workflow
 Copy the GitHub Actions workflow from [project link].
 
@@ -268,6 +268,12 @@ def test_advanced_statistics(self):
 
 ### 7.4 Test Locally
 ```bash
+# Clean the unused images
+make clean
+
+# Create new image
+make build
+
 # Run quality checks
 make quality
 
@@ -287,8 +293,9 @@ git push origin feature/new-analysis-function
 - Create pull request
 - Watch CI pipeline run on the PR
 
-## 🔀 Step 8: Merge and Deploy
+---
 
+## Step 8: Merge and Deploy
 ### 8.1 Code Review Process
 - Review the changes in the PR
 - Ensure all CI checks pass
@@ -302,46 +309,67 @@ After merge to main:
 4. Deploy step executes
 
 ### 8.3 Verify Deployment
-```bash
-# Pull the latest image
-docker pull YOUR_USERNAME/scipy-app:latest
+Checks GitHub Packages:
+- GitHub → Profile → Packages → scipy-cicd-project → Recent tagged image versions
 
-# Run the updated application
-docker run --rm YOUR_USERNAME/scipy-app:latest python main.py
+---
+
+## Step 9: Handling Failures
+### 9.1 Simulate Test Failure
+Before we add failing test function, we first pull the remote changes to our local main branch
+```bash
+# switch working branch to main branch
+git checkout main
+
+# pull from remote to local main
+git pull origin main
 ```
 
-## 🚨 Step 9: Handling Failures
-
-### 9.1 Simulate Test Failure
-Create a failing test:
+### 9.2 Create a Failing Test
+Add the following in `tests/test_data_processor.py`
 ```python
 def test_failing_example(self):
     """This test will fail"""
     assert 1 == 2  # This will fail
 ```
 
-### 9.2 Push and Observe
+Run local test to see the result
+```bash
+python -m pytest tests/ -v --cov=src
+```
+
+### 9.3 Push and Observe
 ```bash
 git add .
 git commit -m "test: add failing test"
 git push origin main
 ```
 
-### 9.3 Check Pipeline Failure
+### 9.4 Check Pipeline Failure
 - Go to GitHub Actions
 - See the failed pipeline
 - Review the error logs
 - Fix the issue and push again
 
-### 9.4 Fix the Issue
-Remove the failing test:
+### 9.5 Fix the Issue
+Remove the failing commit:
 ```bash
+# revert the last commit
 git revert HEAD
+
+# push the previous success commit to over write the bad one
 git push origin main
 ```
 
-## 🔧 Step 10: Advanced Configuration
+Note that you can also run the command `git log --oneline` to see the hash of the bad commitment.
+For example, the output may look like `abcde12 test: add failing test`. Then you may revert the commit by running
+```bash
+git revert abcde12
+```
 
+---
+
+## 🔧 Step 10: Advanced Configuration (The following part is still under construction)
 ### 10.1 Add Environment-Specific Configs
 Create `config/` directory with environment configs:
 ```bash
