@@ -316,12 +316,12 @@ Checks GitHub Packages:
 
 ## Step 9: Handling Failures
 ### 9.1 Simulate Test Failure
-Before we add failing test function, we first pull the remote changes to our local main branch
+Before we add failing test function, we first pull the remote main branch to our local main branch
 ```bash
 # switch working branch to main branch
 git checkout main
 
-# pull from remote to local main
+# pull from remote main branch to our working branch(which is now the main branch)
 git pull origin main
 ```
 
@@ -336,6 +336,8 @@ def test_failing_example(self):
 Run local test to see the result
 ```bash
 python -m pytest tests/ -v --cov=src
+
+# this will print the failure message
 ```
 
 ### 9.3 Push and Observe
@@ -366,6 +368,9 @@ For example, the output may look like `abcde12 test: add failing test`. Then you
 ```bash
 git revert abcde12
 ```
+
+### 9.6 See the Fixed Pipeline
+Go to GitHub Actions and see the pipeline, which shall be successful now.
 
 ---
 
