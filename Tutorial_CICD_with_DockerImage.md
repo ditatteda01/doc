@@ -27,7 +27,7 @@ mkdir path/to/scipy-cicd-project
 cd path/to/scipy-cicd-project
 ```
 
-### 1.2 Initialize Git Repository and Add Remote URL
+### 1.2 Initialize Git Repository
 ```bash
 git init
 git branch -M main    # rename the current branch's name to 'main'
