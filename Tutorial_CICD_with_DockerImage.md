@@ -315,18 +315,17 @@ Checks GitHub Packages:
 ---
 
 ## Step 9: Handling Failures
-### 9.1 Simulate Test Failure
 Before we add failing test function, we first pull the remote main branch to our local main branch
 ```bash
 # switch working branch to main branch
 git checkout main
 
-# pull from remote main branch to our working branch(which is now the main branch)
+# pull remote main branch to our working branch(which is now the main branch)
 git pull origin main
 ```
 
-### 9.2 Create a Failing Test
-Add the following in `tests/test_data_processor.py`
+### 9.1 Simulate Test Failure
+Create a Failing Test. Add the following in `tests/test_data_processor.py`
 ```python
 def test_failing_example(self):
     """This test will fail"""
@@ -340,20 +339,20 @@ python -m pytest tests/ -v --cov=src
 # this will print the failure message
 ```
 
-### 9.3 Push and Observe
+### 9.2 Push and Observe
 ```bash
 git add .
 git commit -m "test: add failing test"
 git push origin main
 ```
 
-### 9.4 Check Pipeline Failure
+### 9.3 Check Pipeline Failure
 - Go to GitHub Actions
 - See the failed pipeline
 - Review the error logs
 - Fix the issue and push again
 
-### 9.5 Fix the Issue
+### 9.4 Fix the Issue
 Remove the failing commit:
 ```bash
 # revert the last commit
@@ -362,15 +361,13 @@ git revert HEAD
 # push the previous success commit to over write the bad one
 git push origin main
 ```
+Go back to GitHub repo and see the pipeline, the result should be successful now.
 
 Note that you can also run the command `git log --oneline` to see the hash of the bad commitment.
 For example, the output may look like `abcde12 test: add failing test`. Then you may revert the commit by running
 ```bash
 git revert abcde12
 ```
-
-### 9.6 See the Fixed Pipeline
-Go to GitHub Actions and see the pipeline, which shall be successful now.
 
 ---
 
